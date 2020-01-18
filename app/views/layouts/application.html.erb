@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>RoR Blog</title>
+    <title>Blog</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,6 +10,21 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="bg-primary text-white text-center mb-4 p-4">
+      <%= link_to root_path, class: 'text-white' do %>
+        <h1 class="display-4">Tech Blog</h1>
+      <% end %>
+
+      <p class="lead">Hello! Here you will find articles on technology, programming and careers.</p>
+    </div>
+
+    <div class="container">
+      <%= yield %>
+    </div>
+
+    <footer class="bg-primary text-center text-white mt-4 p-2">
+      Copyright ©️ Walter Garcia <%= Date.current.year %>
+    </footer>
+    
   </body>
 </html>

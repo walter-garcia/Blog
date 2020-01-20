@@ -9,7 +9,7 @@
   </div>
 
   <div class="px-5">
-    <%= @post.body.gsub("\n", "<br>").html_safe %>
+    <%= sanitize(@post.body.gsub("\n", "<br>")).html_safe %>
   </div>
 </div>
 
@@ -24,19 +24,43 @@
     </h4>
   </div>
 
-  <%= form_with(model: @comment, local: true) do |form| %>
-    <%= form.hidden_field :post_id, value: @post.id %>
+  <div class="shadow-sm bg-light rounded m-3 p-3">
+    <%= form_with(model: @comment, local: true) do |form| %>
+      <%= form.hidden_field :post_id, value: @post.id %>
 
-    <div class="form-group">
-      <%= form.label :author %>
-      <%= form.text_field :author, class: 'form-control' %>
+      <div class="form-group">
+        <%= form.label :author %>
+        <%= form.text_field :author, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :body %>
+        <%= form.text_area :body, class: 'form-control', rows: 5 %>
+      </div>
+
+      <%= form.submit "Enviar", class: 'btn btn-primary', data: { disable_with: 'Enviando...'} %>
+    <% end %>
+  </div>
+
+  <% @comments.each do |comment| %>
+    <div class="shadow-sm bg-light rounded m-3 p-3">
+      <div class="row">
+        <div class="col">
+          <%= comment.author %>
+        </div>
+
+        <div class="col text-right">
+          <em data-toggle="tooltip" data-placement="top" title="<%= l comment.created_at, format: :long %>">
+            <%= time_ago_in_words comment.created_at %> atrás
+          </em>
+        </div>
+      </div>
+
+      <hr>
+
+      <div>
+        <%= sanitize(comment.body.gsub("\n", "<br>")).html_safe %>
+      </div>
     </div>
-
-    <div class="form-group">
-      <%= form.label :body %>
-      <%= form.text_area :body, class: 'form-control', rows: 5 %>
-    </div>
-
-    <%= form.submit "Enviar", class: 'btn btn-primary', data: { disable_with: 'Enviando...'} %>
   <% end %>
 </div>
